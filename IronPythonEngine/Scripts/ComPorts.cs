@@ -6,25 +6,18 @@ public class ComPorts : MonoBehaviour
 {
     private Dictionary<string, ComPort> comPorts;
 
-    public GameObject testConnect;
+    public bool connected = false;
 
     // Use this for initialization
     void Start()
     {
         comPorts = new Dictionary<string, ComPort>();
-
-        //Temporary test
-        if (testConnect != null)
-        {
-            ComPort port = testConnect.GetComponent<ComPort>();
-            if (port != null) ConnectPort(port);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        connected = (comPorts.Count != 0);
     }
 
     public bool ConnectPort(ComPort port)
@@ -47,6 +40,11 @@ public class ComPorts : MonoBehaviour
     public void DisconnectAllPorts()
     {
         comPorts.Clear();
+    }
+
+    public bool IsConnected(ComPort port)
+    {
+        return comPorts.ContainsValue(port);
     }
 
     public string PrintPorts()

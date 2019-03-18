@@ -164,6 +164,7 @@ public class PythonEngine : MonoBehaviour
         //Set working directory
         Directory.SetCurrentDirectory(cwd);
 
+        Debug.Log("Thread");
         //Run script
         ScriptSource m_source = m_engine.CreateScriptSourceFromFile(path);
         m_source.ExecuteAndWrap(m_scope, out exception);

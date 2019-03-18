@@ -132,13 +132,9 @@ public class CharacterMovement : MonoBehaviour
                 velocityY += jumpSpeed;
             }
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                foreach (Communication c in nearObjects.getNear())
-                {
-                    Debug.Log("Communication object");
-                    Debug.Log(c.debug());
-                }
+                nearObjects.ConnectNear();
             }
         }
         else
