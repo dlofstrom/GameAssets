@@ -90,9 +90,11 @@ public class Commands : MonoBehaviour
     public List<string> GetMatchingPaths(string path, bool clip)
     {
         int lastSlash = path.LastIndexOf('/');
-        string completedPath = (lastSlash != -1) ? path.Substring(0, lastSlash) : "";
-        string uncompletePath = (lastSlash != -1) ? path.Substring(lastSlash) : path;
+        string completedPath = (lastSlash != -1) ? path.Substring(0, lastSlash+1) : "";
+        string uncompletePath = (lastSlash != -1) ? path.Substring(lastSlash+1) : path;
         List<string> list = new List<string>();
+
+        Debug.Log("Completed path: " + completedPath + " uncompleted path: " + uncompletePath);
 
         //Go to so far complete path
         DirectoryInfo listDirectory = new DirectoryInfo(currentDirectory.FullName + "/" + completedPath);

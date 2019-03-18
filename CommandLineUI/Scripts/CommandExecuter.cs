@@ -206,7 +206,8 @@ public class CommandExecuter : MonoBehaviour {
     public string CompletePath(string path)
     {
         List<string> list = commandObject.GetMatchingPaths(path, true);
-        if (list.Count == 1) return list[0] + " ";
+        if (list.Count == 1 && list[0][list[0].Length - 1] != '/') return list[0] + " ";
+        else if (list.Count == 1) return list[0];
         //Autofill all matching starting characters
         else return GetCommonChars(list);
     }
