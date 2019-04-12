@@ -5,6 +5,8 @@ using UnityEngine;
 public class ComPorts : MonoBehaviour
 {
     private Dictionary<string, ComPort> comPorts;
+    private Dictionary<string, GameObject> cables;
+    public GameObject cablePrefab;
 
     public bool connected = false;
 
@@ -12,6 +14,7 @@ public class ComPorts : MonoBehaviour
     void Start()
     {
         comPorts = new Dictionary<string, ComPort>();
+        cables = new Dictionary<string, GameObject>();
     }
 
     // Update is called once per frame
@@ -31,10 +34,31 @@ public class ComPorts : MonoBehaviour
         return false;
     }
 
+    public void ConnectCable(ComPort port, GameObject start, GameObject end)
+    {
+        if (cablePrefab != null)
+        {
+            string portName = port.get_name();
+            if (!cables.ContainsKey(portName))
+            {
+                GameObject cable = (GameObject)Instantiate(cablePrefab, start.transform.position, Quaternion.identity);
+                cable.GetComponent<InitCable>().Connect(start, end);
+                cables.Add(portName, cable);
+            }
+        }
+    }
+
     public bool DisconnectPort(ComPort port)
     {
         string portName = port.get_name();
         return comPorts.Remove(portName);
+    }
+
+    public void DisconnectCable(ComPort port)
+    {
+        string portName = port.get_name();
+        Destroy(cables[portName], 0.0f);
+        cables.Remove(portName);
     }
 
     public void DisconnectAllPorts()

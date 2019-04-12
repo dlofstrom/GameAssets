@@ -39,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         ragdoll = GetComponent<ToggleRagdoll>();
-        nearObjects = GetComponent<NearObjects>();
+        nearObjects = GetComponentInChildren<NearObjects>();
         enabledLast = controller.enabled;
     }
 
@@ -134,7 +134,7 @@ public class CharacterMovement : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                nearObjects.ConnectNear();
+                nearObjects.ConnectNear(gameObject);
             }
         }
         else

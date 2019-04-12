@@ -2,25 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NearObjects : MonoBehaviour {
-
-    public SphereCollider sphereCollider;
-    public float testForce;
-    private List<GameObject> near = new List<GameObject>();
+public class DisconnectObjects : MonoBehaviour {
     private ComPorts comPorts;
 
-    // Use this for initialization
-    void Start () {
-        sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.isTrigger = true;
+	// Use this for initialization
+	void Start () {
         comPorts = GetComponentInParent<ComPorts>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 	}
 
-    private void OnTriggerEnter(Collider other)
+
+	/*
+	private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Part")
         {
@@ -34,7 +31,7 @@ public class NearObjects : MonoBehaviour {
                     //Debug.Log(other.tag + " collided");
                     //Rigidbody otherRigidBody = other.gameObject.GetComponent<Rigidbody>();
                     //otherRigidBody.AddForce(transform.up * testForce);
-                    if (!near.Contains(other.gameObject)) near.Add(other.gameObject);
+                    near.Add(other.gameObject);
 
                     //Highlight object on
                     Outline outline = other.gameObject.GetComponent<Outline>();
@@ -44,7 +41,7 @@ public class NearObjects : MonoBehaviour {
             }
         }
     }
-
+	*/
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Part")
@@ -54,30 +51,16 @@ public class NearObjects : MonoBehaviour {
 
             if (comPorts != null)
             {
-                if (!comPorts.IsConnected(comPort))
+                if (comPorts.IsConnected(comPort))
                 {
-                    Debug.Log(other.tag + " stopped colliding");
-                    near.Remove(other.gameObject);
+                    Debug.Log(other.tag + " cable broke");
+                    comPorts.DisconnectPort(comPort);
+					comPorts.DisconnectCable(comPort);
 
                     //Highlight object off
                     Outline outline = other.gameObject.GetComponent<Outline>();
                     outline.enabled = false;
                 }
-            }
-        }
-    }
-
-    public void ConnectNear(GameObject parent) {
-        if (near.Count > 0 && comPorts != null)
-        {
-            ComPort cp = near[0].GetComponent<ComPort>();
-            Outline outline = near[0].GetComponent<Outline>();
-            if (cp != null)
-            {
-                comPorts.ConnectPort(cp);
-                comPorts.ConnectCable(cp, parent, near[0]);
-                outline.OutlineColor = Color.green;
-                near.RemoveAt(0);
             }
         }
     }
